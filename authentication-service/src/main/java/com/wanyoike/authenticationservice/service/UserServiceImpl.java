@@ -41,4 +41,18 @@ public class UserServiceImpl implements UserService {
         return userExists;
 
     }
+
+    @Override
+    public User updateUser(String email, User user) {
+        User userExists = userRepository.findByEmail(user.getEmail());
+        if (userExists == null)
+            throw new UserEmailNotFoundException("User email not found : " + user.getEmail());
+        else{
+            userExists.setFirstName(user.getFirstName());
+            userExists.setLastName(user.getLastName());
+            userExists.setEmail(user.getEmail());
+            userExists.setPassword(user.getPassword());
+        }
+        return userRepository.save(userExists);
+    }
 }

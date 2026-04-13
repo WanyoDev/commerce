@@ -35,4 +35,9 @@ public class UserController {
     public User findUserByEmail(@RequestParam("email") String email) {
         return userService.findUserByEmail(email);
     }
+
+    @PutMapping("/user/{email}")
+    public User updateUser(@PathVariable("email") String email, @RequestBody User user) {
+        return userService.updateUser(email, user);
+    }
 }
