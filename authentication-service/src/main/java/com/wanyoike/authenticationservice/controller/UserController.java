@@ -2,6 +2,8 @@ package com.wanyoike.authenticationservice.controller;
 
 import com.wanyoike.authenticationservice.model.User;
 import com.wanyoike.authenticationservice.service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,13 +19,13 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
     }
 
     @GetMapping("/users")
-    public List<User> findAllUsers() {
-        return userService.findAllUsers();
+    public ResponseEntity<List<User>> findAllUsers() {
+        return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.FOUND);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -32,12 +34,12 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public User findUserByEmail(@RequestParam("email") String email) {
-        return userService.findUserByEmail(email);
+    public ResponseEntity<User> findUserByEmail(@RequestParam("email") String email) {
+        return new ResponseEntity<>(userService.findUserByEmail(email), HttpStatus.FOUND);
     }
 
     @PutMapping("/user/{email}")
-    public User updateUser(@PathVariable("email") String email, @RequestBody User user) {
-        return userService.updateUser(email, user);
+    public ResponseEntity<User> updateUser(@PathVariable("email") String email, @RequestBody User user) {
+        return new ResponseEntity<>(userService.updateUser(email, user), HttpStatus.OK);
     }
 }
