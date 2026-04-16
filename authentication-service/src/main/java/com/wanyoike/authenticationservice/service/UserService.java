@@ -1,10 +1,8 @@
 package com.wanyoike.authenticationservice.service;
 
-import com.wanyoike.authenticationservice.dto.UserDTO;
-import com.wanyoike.authenticationservice.model.User;
+import com.wanyoike.authenticationservice.dtos.UserDTO;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface UserService {

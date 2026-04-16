@@ -1,4 +1,4 @@
-package com.wanyoike.authenticationservice.dto;
+package com.wanyoike.authenticationservice.dtos;
 
 import com.wanyoike.authenticationservice.model.User;
 import org.mapstruct.Mapper;
@@ -11,8 +11,9 @@ import java.util.List;
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    @Mapping(source = "role", target = "role", defaultValue = "USER")
+    @Mapping(source = "role", target = "role", defaultValue = "GUEST")
     UserDTO toDto(User user);
     User toEntity(UserDTO userDTO);
     List<UserDTO> listToDto(List<User> users);
+//    UserResponseDTO toResponseDTO(User user);
 }

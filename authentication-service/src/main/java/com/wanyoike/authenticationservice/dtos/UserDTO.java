@@ -1,5 +1,6 @@
-package com.wanyoike.authenticationservice.dto;
+package com.wanyoike.authenticationservice.dtos;
 
+import com.wanyoike.authenticationservice.model.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,6 +13,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class UserDTO {
     private UUID id;
 
@@ -24,6 +26,9 @@ public class UserDTO {
     @NotBlank(message = "Enter a valid email address")
     @Email(message = "Enter a valid email address")
     private String email;
+
+    @NotBlank
+    private String password;
 
     private String role;
 }

@@ -1,7 +1,6 @@
 package com.wanyoike.authenticationservice.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -27,11 +26,11 @@ public class User {
     private UUID id;
 
     @NotNull(message = "Enter first name")
-    @Column(unique = true,  nullable = false,name = "first_name")
+    @Column(nullable = false, name = "first_name")
     private String firstName;
 
     @NotNull(message = "Enter last name")
-    @Column(unique = true,  nullable = false,name = "last_name")
+    @Column(nullable = false, name = "last_name")
     private String lastName;
 
     @Email(message = "Enter a valid email")
@@ -45,7 +44,7 @@ public class User {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, name = "role")
+    @Column(name = "role")
     private Role role;
 
 }

@@ -1,7 +1,6 @@
 package com.wanyoike.authenticationservice.controller;
 
-import com.wanyoike.authenticationservice.dto.UserDTO;
-import com.wanyoike.authenticationservice.model.User;
+import com.wanyoike.authenticationservice.dtos.UserDTO;
 import com.wanyoike.authenticationservice.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

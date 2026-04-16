@@ -1,11 +1,10 @@
 package com.wanyoike.authenticationservice.service;
 
-import com.wanyoike.authenticationservice.dto.UserDTO;
-import com.wanyoike.authenticationservice.dto.UserMapper;
+import com.wanyoike.authenticationservice.dtos.UserDTO;
+import com.wanyoike.authenticationservice.dtos.UserMapper;
 import com.wanyoike.authenticationservice.exceptions.UserEmailNotFoundException;
 import com.wanyoike.authenticationservice.model.User;
 import com.wanyoike.authenticationservice.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,8 +24,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO createUser(UserDTO userDTO) {
-//        User user=userMapper.toEntity(userDTO);
-//        User savedUser=userRepository.save(user);
+//        Users user=userMapper.toEntity(userDTO);
+//        Users savedUser=userRepository.save(user);
 //        return userMapper.toDto(savedUser);
 
         return userMapper.toDto(userRepository.save(userMapper.toEntity(userDTO)));
