@@ -25,8 +25,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO createUser(UserDTO userDTO) {
+//        User user=userMapper.toEntity(userDTO);
+//        User savedUser=userRepository.save(user);
+//        return userMapper.toDto(savedUser);
 
         return userMapper.toDto(userRepository.save(userMapper.toEntity(userDTO)));
+        //here it means the userDto is converted to entity ->
+        // then saved to the database ->
+        // entity is then converted to dto and returned to rest client as a response.
+        // << It's in reverse
 
     }
 
