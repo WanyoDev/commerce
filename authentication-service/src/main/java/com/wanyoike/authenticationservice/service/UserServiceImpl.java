@@ -1,8 +1,11 @@
 package com.wanyoike.authenticationservice.service;
 
+import com.wanyoike.authenticationservice.dto.UserDTO;
+import com.wanyoike.authenticationservice.dto.UserMapper;
 import com.wanyoike.authenticationservice.exceptions.UserEmailNotFoundException;
 import com.wanyoike.authenticationservice.model.User;
 import com.wanyoike.authenticationservice.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,18 +16,24 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    private final UserMapper userMapper;
+
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     @Override
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public UserDTO createUser(UserDTO userDTO) {
+
+        return userMapper.toDto(userRepository.save(userMapper.toEntity(userDTO)));
+
     }
 
     @Override
-    public List<User> findAllUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> findAllUsers() {
+        List<User> allUsers = userRepository.findAll();
+        return userMapper.listToDto(allUsers);
     }
 
     @Override
@@ -33,26 +42,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByEmail(String email) {
+    public UserDTO findUserByEmail(String email) {
         User userExists = userRepository.findByEmail(email);
         if (userExists == null)
             throw new UserEmailNotFoundException("User email not found " + email);
         else
-        return userExists;
+            return userMapper.toDto(userExists);
 
     }
 
     @Override
-    public User updateUser(String email, User user) {
-        User userExists = userRepository.findByEmail(user.getEmail());
-        if (userExists == null)
-            throw new UserEmailNotFoundException("User email not found : " + user.getEmail());
-        else{
-            userExists.setFirstName(user.getFirstName());
-            userExists.setLastName(user.getLastName());
-            userExists.setEmail(user.getEmail());
-            userExists.setPassword(user.getPassword());
+    public UserDTO updateUser(String email, UserDTO userDTO) {
+        User userExists = userRepository.findByEmail(email);
+        if (userExists == null) {
+            throw new UserEmailNotFoundException("User email not found " + email);
+        } else {
+            userExists.setFirstName(userDTO.getFirstName());
+            userExists.setLastName(userDTO.getLastName());
+            userExists.setEmail(userDTO.getEmail());
         }
-        return userRepository.save(userExists);
+
+      return userMapper.toDto(userRepository.save(userExists));
     }
+
+
 }

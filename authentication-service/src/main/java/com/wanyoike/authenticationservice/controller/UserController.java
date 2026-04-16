@@ -1,5 +1,6 @@
 package com.wanyoike.authenticationservice.controller;
 
+import com.wanyoike.authenticationservice.dto.UserDTO;
 import com.wanyoike.authenticationservice.model.User;
 import com.wanyoike.authenticationservice.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -19,12 +20,12 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+        return new ResponseEntity<>(userService.createUser(userDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> findAllUsers() {
+    public ResponseEntity<List<UserDTO>> findAllUsers() {
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.FOUND);
     }
 
@@ -34,12 +35,12 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<User> findUserByEmail(@RequestParam("email") String email) {
+    public ResponseEntity<UserDTO> findUserByEmail(@RequestParam("email") String email) {
         return new ResponseEntity<>(userService.findUserByEmail(email), HttpStatus.FOUND);
     }
 
     @PutMapping("/user/{email}")
-    public ResponseEntity<User> updateUser(@PathVariable("email") String email, @RequestBody User user) {
+    public ResponseEntity<UserDTO> updateUser(@PathVariable("email") String email, @RequestBody UserDTO user) {
         return new ResponseEntity<>(userService.updateUser(email, user), HttpStatus.OK);
     }
 }
