@@ -39,7 +39,7 @@ public class User {
     private String email;
 
     @NotBlank(message = "Password must be at least 8 characters")
-    @Column(unique = true, nullable = false, name = "password")
+    @Column(nullable = false, name = "password")
     @Size(min = 8, max = 20)
     private String password;
 
