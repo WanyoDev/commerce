@@ -5,6 +5,7 @@ import com.wanyoike.authenticationservice.dtos.UserMapper;
 import com.wanyoike.authenticationservice.exceptions.UserEmailNotFoundException;
 import com.wanyoike.authenticationservice.model.User;
 import com.wanyoike.authenticationservice.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,11 +23,15 @@ public class UserServiceImpl implements UserService {
         this.userMapper = userMapper;
     }
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
     @Override
     public UserDTO createUser(UserDTO userDTO) {
 //        Users user=userMapper.toEntity(userDTO);
 //        Users savedUser=userRepository.save(user);
 //        return userMapper.toDto(savedUser);
+
+//        userDTO.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
 
         return userMapper.toDto(userRepository.save(userMapper.toEntity(userDTO)));
         //here it means the userDto is converted to entity ->
