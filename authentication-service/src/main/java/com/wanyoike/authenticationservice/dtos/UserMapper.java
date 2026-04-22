@@ -11,8 +11,12 @@ import java.util.List;
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    @Mapping(source = "role", target = "role", defaultValue = "GUEST")
+    @Mapping(target = "password", ignore = true)
     UserDTO toDto(User user);
+
+    @Mapping(target = "password", ignore = true)
     User toEntity(UserDTO userDTO);
+
+//    @Mapping(target = "password", ignore = true)
     List<UserDTO> listToDto(List<User> users);
 }
