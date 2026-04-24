@@ -1,6 +1,7 @@
 package com.wanyoike.authenticationservice.controller;
 
 import com.wanyoike.authenticationservice.dtos.UserDTO;
+import com.wanyoike.authenticationservice.service.UserDetailsServiceImpl;
 import com.wanyoike.authenticationservice.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +14,19 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
+    private final UserDetailsServiceImpl userDetailsService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserDetailsServiceImpl userDetailsService) {
         this.userService = userService;
+        this.userDetailsService = userDetailsService;
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody UserDTO userDTO) {
+        return new ResponseEntity<>(userDetailsService.authenticateUser(userDTO), HttpStatus.OK);
+    }
+
+
 
     @PostMapping("/register")
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
