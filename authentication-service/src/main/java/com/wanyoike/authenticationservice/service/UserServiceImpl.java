@@ -31,8 +31,7 @@ public class UserServiceImpl implements UserService {
 //        Users savedUser=userRepository.save(user);
 //        return userMapper.toDto(savedUser);
 
-//        userDTO.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
-
+        userDTO.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
         return userMapper.toDto(userRepository.save(userMapper.toEntity(userDTO)));
         //here it means the userDto is converted to entity ->
         // then saved to the database ->
