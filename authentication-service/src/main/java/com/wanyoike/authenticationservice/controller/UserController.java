@@ -27,6 +27,17 @@ public class UserController {
     }
 
 
+    @GetMapping
+    public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .build();
+        }
+        return userDetailsService.validateToken(authHeader.substring(7))
+                ? ResponseEntity.ok().build()
+                : ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
 
     @PostMapping("/register")
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {

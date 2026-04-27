@@ -30,7 +30,7 @@ public class SecurityConfiguration {
         http
                 .csrf(csrf-> csrf.disable())
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .anyRequest().permitAll())
+                        .anyRequest().authenticated())
 
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
@@ -45,18 +45,18 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-//    public AuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider daoProvider = new DaoAuthenticationProvider();
-//        daoProvider.setPasswordEncoder(bCryptPasswordEncoder());
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider daoProvider = new DaoAuthenticationProvider(userDetailsService);
+        daoProvider.setPasswordEncoder(bCryptPasswordEncoder());
 //        daoProvider.setUserDetailsService(userDetailsService);
-//
-//        return daoProvider;
-//    }
 
-//    @Bean
-//    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-//        return configuration.getAuthenticationManager();
-//    }
+        return daoProvider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
+    }
 
 
 }

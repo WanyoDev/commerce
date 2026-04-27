@@ -40,7 +40,7 @@ public class User {
 
     @NotBlank(message = "Enter password, at least 8 characters long")
     @Column(nullable = false, name = "password")
-    @Size(min = 8, max = 20)
+//    @Size(min = 8, max = 20)
     private String password;
 
     @Enumerated(EnumType.STRING)

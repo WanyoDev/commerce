@@ -27,7 +27,7 @@ public class UserDTO {
     @Email(message = "Enter a valid email address")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "Enter password")
     private String password;
 
     private String role;

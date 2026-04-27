@@ -14,7 +14,9 @@ public interface UserMapper {
     @Mapping(target = "password", ignore = true)
     UserDTO toDto(User user);
 
+    @Mapping(target = "password", ignore = true)
     User toEntity(UserDTO userDTO);
 
+    @Mapping(target = "password", ignore = true)
     List<UserDTO> listToDto(List<User> users);
 }

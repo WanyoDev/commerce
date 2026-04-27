@@ -1,8 +1,10 @@
 package com.wanyoike.authenticationservice.service;
 
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.KeyGenerator;
@@ -17,17 +19,19 @@ import java.util.Map;
 @Component
 public class JwtService {
 
-    public static String secretKey;
+    //secret key in string format
+    public static String generatedSK;
 
     KeyGenerator keyGen;
-    SecretKey sk;
+    //secret key in symmetric format
+    SecretKey secretKey;
 
     {
         try {
             keyGen = KeyGenerator.getInstance("HmacSHA256");
-            sk = keyGen.generateKey();
-            secretKey = Base64.getEncoder()
-                    .encodeToString(sk.getEncoded());
+            secretKey = keyGen.generateKey(); //generates a new kay
+            generatedSK = Base64.getEncoder()
+                    .encodeToString(secretKey.getEncoded());
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
@@ -36,7 +40,7 @@ public class JwtService {
 
     public Key signingKey() {
         byte[] keyBytes = Decoders.BASE64
-                .decode(secretKey);
+                .decode(generatedSK);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
@@ -54,4 +58,19 @@ public class JwtService {
                         .signWith(signingKey())
                         .compact();
     }
+
+    public void validateToken(String token) {
+        try {
+            Jwts.parser()
+                    .verifyWith(secretKey) //this is the generated secret key
+                    .build()
+                    .parseSignedClaims(token);
+        } catch (SignatureException e) {
+            throw new JwtException("Invalid JWT Signature");
+
+        } catch (JwtException e) {
+            throw new JwtException("Invalid JWT");
+        }
+    }
 }
+

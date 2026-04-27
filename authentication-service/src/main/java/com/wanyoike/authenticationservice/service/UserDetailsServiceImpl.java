@@ -4,7 +4,8 @@ import com.wanyoike.authenticationservice.dtos.UserDTO;
 import com.wanyoike.authenticationservice.model.User;
 import com.wanyoike.authenticationservice.model.UserPrincipal;
 import com.wanyoike.authenticationservice.repository.UserRepository;
-import org.hibernate.validator.internal.util.stereotypes.Lazy;
+import io.jsonwebtoken.JwtException;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final AuthenticationManager authenticationManager;
 
     public UserDetailsServiceImpl(UserRepository userRepository,
-                                  JwtService jwtService, AuthenticationManager authenticationManager) {
+                                  JwtService jwtService,@Lazy AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
@@ -44,6 +45,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         throw new RuntimeException("Authentication failed!");
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            jwtService.validateToken(token);
+            return true;
+        } catch (JwtException e) {
+            return false;
+        }
     }
 
     @Override
