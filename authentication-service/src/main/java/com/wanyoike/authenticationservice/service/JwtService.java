@@ -53,7 +53,7 @@ public class JwtService {
                         .subject(email)
                         .issuer(email)
                         .issuedAt(new Date(System.currentTimeMillis()))
-                        .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) //expires after 10hrs
+                        .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30)) //expires after 30mins
                         .and()
                         .signWith(signingKey())
                         .compact();
