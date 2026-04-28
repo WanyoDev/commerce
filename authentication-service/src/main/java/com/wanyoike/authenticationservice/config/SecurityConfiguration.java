@@ -30,10 +30,11 @@ public class SecurityConfiguration {
         http
                 .csrf(csrf-> csrf.disable())
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers("/register", "/login").permitAll()
                         .anyRequest().authenticated())
 
-                .formLogin(Customizer.withDefaults())
-                .httpBasic(Customizer.withDefaults())
+//                .formLogin(Customizer.withDefaults()) //UI access
+                .httpBasic(Customizer.withDefaults()) //API access
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)); //standard for Rest APIs to allow login
 
@@ -45,10 +46,10 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoProvider = new DaoAuthenticationProvider(userDetailsService);
         daoProvider.setPasswordEncoder(bCryptPasswordEncoder());
-//        daoProvider.setUserDetailsService(userDetailsService);
 
         return daoProvider;
     }
