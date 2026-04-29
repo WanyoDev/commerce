@@ -32,6 +32,8 @@ public class JwtService {
             secretKey = keyGen.generateKey(); //generates a new kay
             generatedSK = Base64.getEncoder()
                     .encodeToString(secretKey.getEncoded());
+
+            System.out.println("Generated secret key: " + generatedSK);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
