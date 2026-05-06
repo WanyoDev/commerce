@@ -1,12 +1,15 @@
 package com.wanyoike.productservice.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -24,14 +27,22 @@ public class Brand {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @NotBlank(message = "Select brand")
     @Column(nullable = false, name = "brand", unique = true)
     private String brand;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "brand")
-    private Set<Category> category;
+    //PERSIST & MERGE;don't remove a Category only because a Brand is deleted
+    //Should be the owning side
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "brand_category",
+            joinColumns = @JoinColumn(name = "brand_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> category = new HashSet<>();
 
     @OneToMany(mappedBy = "brand")
     private List<Product> products;
 
+    @CreatedDate
+    @Column(updatable = false, name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 }

@@ -1,10 +1,14 @@
 package com.wanyoike.productservice.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -23,14 +27,23 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @NotBlank(message = "Enter product name")
+    @Column(name = "product", nullable = false)
     private String product;
 
+    @NotBlank(message = "Enter product description")
+    @Column(name = "description", nullable = false)
     private String description;
 
+    @NotBlank(message = "Enter product price")
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
+    @NotBlank(message = "Available quantity")
+    @Column(name = "quantity", nullable = false)
     private int quantity;
 
+    @Column(name = "available", nullable = false)
     private boolean available;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -41,6 +54,11 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @CreatedDate
+    @Column(updatable = false, name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @LastModifiedDate
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 }
