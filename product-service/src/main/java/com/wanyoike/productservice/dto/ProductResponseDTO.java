@@ -3,7 +3,9 @@ package com.wanyoike.productservice.dto;
 import com.wanyoike.productservice.model.Brand;
 import com.wanyoike.productservice.model.Category;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -21,11 +23,12 @@ public class ProductDTO {
     @NotBlank(message = "Enter product description")
     private String description;
 
-    @NotBlank(message = "Enter product price")
+    @NotNull(message = "Enter product price")
+    @DecimalMin(value = "0.0",  inclusive = false, message = "price must be greater than 0")
     private BigDecimal price;
 
-    @NotBlank(message = "Available quantity")
-    private int quantity;
+    @NotNull(message = "Quantity is required")
+    private Integer quantity;
 
     private boolean available;
 
@@ -33,7 +36,7 @@ public class ProductDTO {
 
     private CategoryDTO categoryDTO;
 
-    private final LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 }
