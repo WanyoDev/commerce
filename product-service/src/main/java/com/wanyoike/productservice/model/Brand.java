@@ -33,7 +33,7 @@ public class Brand {
 
     //PERSIST & MERGE;don't remove a Category only because a Brand is deleted
     //Should be the owning side
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "brand_category",
             joinColumns = @JoinColumn(name = "brand_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
@@ -44,5 +44,5 @@ public class Brand {
 
     @CreatedDate
     @Column(updatable = false, name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 }

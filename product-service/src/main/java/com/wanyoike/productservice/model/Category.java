@@ -30,7 +30,7 @@ public class Category {
     @Column(nullable = false, name = "category", unique = true)
     private String category;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "category")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "category")
     private Set<Brand> brand = new HashSet<>();
 
     @OneToMany(mappedBy = "category")
@@ -38,5 +38,5 @@ public class Category {
 
     @CreatedDate
     @Column(updatable = false, name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 }

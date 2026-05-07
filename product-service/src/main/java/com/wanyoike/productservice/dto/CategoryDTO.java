@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public record CategoryDTO(UUID id, String category, Set<BrandDTO> brandDTO,
-                          List<ProductDTO> productDTO, LocalDateTime createdAt) {
+public record CategoryDTO(UUID id,
+                          String category,
+                          LocalDateTime createdAt) {
 }

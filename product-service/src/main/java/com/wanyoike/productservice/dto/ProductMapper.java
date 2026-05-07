@@ -2,20 +2,22 @@ package com.wanyoike.productservice.dto;
 
 import com.wanyoike.productservice.model.Product;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.Mapping;
 
-import java.util.List;
-
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",
+        uses = {CategoryMapper.class, BrandMapper.class, ProductMapper.class})
 public interface ProductMapper {
 
-    ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
+    //Entity to Response
+    @Mapping(target="available", expression = "java(product.getQuantity() != null && product.getQuantity() > 0)")
+    ProductResponseDTO toResponseDto(Product product);
 
-    ProductDTO toDto(Product product);
+    //Request to Entity
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "category", ignore = true)
+    @Mapping(target = "brand", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    Product toEntity(ProductRequestDTO requestDTO);
 
-    Product toEntity(ProductDTO productDTO);
-
-    List<ProductDTO> listToDto(List<Product> products);
-
-    List<Product> listToEntity(List<ProductDTO> productDTOs);
 }

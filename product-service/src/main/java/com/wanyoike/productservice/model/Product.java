@@ -1,7 +1,9 @@
 package com.wanyoike.productservice.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,16 +37,14 @@ public class Product {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @NotBlank(message = "Enter product price")
+    @NotNull(message = "Enter product price")
     @Column(name = "price", nullable = false)
+    @Min(0)
     private BigDecimal price;
 
-    @NotBlank(message = "Available quantity")
+    @NotNull(message = "Available quantity")
     @Column(name = "quantity", nullable = false)
-    private int quantity;
-
-    @Column(name = "available", nullable = false)
-    private boolean available;
+    private Integer quantity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
@@ -56,9 +56,14 @@ public class Product {
 
     @CreatedDate
     @Column(updatable = false, name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Transient
+    public boolean isAvailable() {
+        return quantity != null && quantity > 0;
+    }
 }
