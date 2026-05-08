@@ -10,14 +10,15 @@ public interface ProductMapper {
 
     //Entity to Response
     @Mapping(target="available", expression = "java(product.getQuantity() != null && product.getQuantity() > 0)")
-    ProductResponseDTO toResponseDto(Product product);
+    ProductResponseDTO toProductResponseDto(Product product);
 
     //Request to Entity
+    //We are ignoring variables from product entity for the request
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "category", ignore = true)
     @Mapping(target = "brand", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    Product toEntity(ProductRequestDTO requestDTO);
+    Product toProductEntity(ProductRequestDTO requestDTO);
 
 }
