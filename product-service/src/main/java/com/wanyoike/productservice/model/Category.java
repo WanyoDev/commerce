@@ -30,6 +30,9 @@ public class Category {
     @Column(nullable = false, name = "category", unique = true)
     private String category;
 
+    @Column(nullable = false)
+    boolean deleted = false;
+
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "category")
     private Set<Brand> brand = new HashSet<>();
 

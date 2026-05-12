@@ -31,6 +31,9 @@ public class Brand {
     @Column(nullable = false, name = "brand", unique = true)
     private String brand;
 
+    @Column(nullable = false)
+    private boolean deleted = false;
+
     //PERSIST & MERGE;don't remove a Category only because a Brand is deleted
     //Should be the owning side
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})

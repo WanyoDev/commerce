@@ -46,6 +46,8 @@ public class Product {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
+    boolean isActive = true;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private Brand brand;

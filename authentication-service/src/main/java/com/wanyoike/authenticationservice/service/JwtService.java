@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.KeyGenerator;
@@ -20,27 +21,10 @@ import java.util.Map;
 public class JwtService {
 
     //secret key in string format
+    @Value("${jjwt.secret.key}")
     public static String generatedSK;
-
-    KeyGenerator keyGen;
-    //secret key in symmetric format
-    SecretKey secretKey;
-
-    {
-        try {
-            keyGen = KeyGenerator.getInstance("HmacSHA256");
-            secretKey = keyGen.generateKey(); //generates a new kay
-            generatedSK = Base64.getEncoder()
-                    .encodeToString(secretKey.getEncoded());
-
-            System.out.println("Generated secret key: " + generatedSK);
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
-    public Key signingKey() {
+    
+    public SecretKey signingKey() {
         byte[] keyBytes = Decoders.BASE64
                 .decode(generatedSK);
         return Keys.hmacShaKeyFor(keyBytes);
@@ -64,7 +48,7 @@ public class JwtService {
     public void validateToken(String token) {
         try {
             Jwts.parser()
-                    .verifyWith(secretKey) //this is the generated secret key
+                    .verifyWith(signingKey()) //this is the generated secret key
                     .build()
                     .parseSignedClaims(token);
         } catch (SignatureException e) {
