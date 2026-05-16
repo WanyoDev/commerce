@@ -32,8 +32,8 @@ public class ProductResponseDTO {
 
     private Boolean available; //derived as it fully depends on quantity
 
-    private BrandDTO brandDTO;
-    private CategoryDTO categoryDTO;
+    private BrandDTO brand;
+    private CategoryDTO category;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

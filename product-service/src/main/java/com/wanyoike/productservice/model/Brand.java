@@ -36,11 +36,11 @@ public class Brand {
 
     //PERSIST & MERGE;don't remove a Category only because a Brand is deleted
     //Should be the owning side
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "brand_category",
             joinColumns = @JoinColumn(name = "brand_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<Category> category = new HashSet<>();
+    private Set<Category> category;
 
     @OneToMany(mappedBy = "brand")
     private List<Product> products;

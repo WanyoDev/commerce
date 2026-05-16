@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class ProductController {
@@ -21,19 +23,36 @@ public class ProductController {
         return "hello product";
     }
 
-    //ADMIN to add category and brand to ensure consistency
+    //PRODUCT
     @PostMapping("/product")
     public ResponseEntity<ProductResponseDTO> createProduct(@RequestBody ProductRequestDTO productRequestDTO) {
         return new ResponseEntity<>(productService.newProduct(productRequestDTO),  HttpStatus.CREATED);
     }
 
+    @GetMapping("/products")
+    public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
+        return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+    }
+
+    //CATEGORY
     @PostMapping("/admin/category")
     public ResponseEntity<CategoryDTO> createCategory(@RequestBody CategoryRequestDTO categoryRequestDTO) {
         return new ResponseEntity<>(productService.newCategory(categoryRequestDTO),  HttpStatus.CREATED);
     }
 
+    @GetMapping("/categories")
+    public ResponseEntity<List<CategoryDTO>> getAllCategories() {
+        return new ResponseEntity<>(productService.getAllCategories(), HttpStatus.OK);
+    }
+
+    //BRAND
     @PostMapping("/admin/brand")
     public ResponseEntity<BrandDTO> createBrand(@RequestBody BrandRequestDTO brandRequestDTO) {
         return new ResponseEntity<>(productService.newBrand(brandRequestDTO),  HttpStatus.CREATED);
+    }
+
+    @GetMapping("/brands")
+    public ResponseEntity<List<BrandDTO>> getAllBrands() {
+        return new ResponseEntity<>(productService.getAllBrands(), HttpStatus.OK);
     }
 }

@@ -25,7 +25,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final AuthenticationManager authenticationManager;
 
     public UserDetailsServiceImpl(UserRepository userRepository,
-                                  JwtService jwtService,@Lazy AuthenticationManager authenticationManager) {
+                                  JwtService jwtService,
+                                  @Lazy
+                                  AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
@@ -57,10 +59,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-        User existingUser = userRepository.findByEmail(userEmail);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User existingUser = userRepository.findByEmail(email);
         if (existingUser == null) {
-            throw new UsernameNotFoundException("User Email " + userEmail + " not found");
+            throw new UsernameNotFoundException("User Email " + email + " not found");
         }
         return new UserPrincipal(existingUser);
     }

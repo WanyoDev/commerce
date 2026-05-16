@@ -23,7 +23,7 @@ public class JwtService {
     //secret key in string format
     @Value("${jjwt.secret.key}")
     public static String generatedSK;
-    
+
     public SecretKey signingKey() {
         byte[] keyBytes = Decoders.BASE64
                 .decode(generatedSK);
@@ -48,7 +48,7 @@ public class JwtService {
     public void validateToken(String token) {
         try {
             Jwts.parser()
-                    .verifyWith(signingKey()) //this is the generated secret key
+                    .verifyWith(signingKey())
                     .build()
                     .parseSignedClaims(token);
         } catch (SignatureException e) {

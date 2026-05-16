@@ -31,9 +31,9 @@ public class ProductRequestDTO {
 
     private Boolean available;
 
-    @NotNull
+    @NotNull(message = "Select valid brand ID")
     private UUID brandId;
 
-    @NotNull
+    @NotNull(message = "Select valid category ID")
     private UUID categoryId;
 }

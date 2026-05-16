@@ -33,8 +33,8 @@ public class Category {
     @Column(nullable = false)
     boolean deleted = false;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "category")
-    private Set<Brand> brand = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "category")
+    private Set<Brand> brand;
 
     @OneToMany(mappedBy = "category")
     private List<Product> products;

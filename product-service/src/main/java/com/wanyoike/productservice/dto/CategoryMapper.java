@@ -21,4 +21,5 @@ public interface CategoryMapper {
     @Mapping(target="brand", ignore = true)
     Category toCategory(CategoryRequestDTO requestDTO);
 
+    List<CategoryDTO> toCategoryListDTO(List<Category> categories);
 }

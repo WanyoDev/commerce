@@ -21,4 +21,5 @@ public interface BrandMapper {
     @Mapping(target = "createdAt", ignore = true)
     Brand toBrand(BrandRequestDTO requestDTO);
 
+    List<BrandDTO> toBrandListDTO(List<Brand> brands);
 }

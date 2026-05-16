@@ -10,6 +10,7 @@ import com.wanyoike.productservice.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -52,6 +53,12 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.toProductResponseDto(saved);
     }
 
+    @Override
+    public List<ProductResponseDTO> getAllProducts() {
+        List<Product> products = productRepository.findAll();
+        return productMapper.toListResponseDto(products);
+    }
+
     //CATEGORY - CREATE, READ, UPDATE, DELETE
     @Override
     public CategoryDTO newCategory(CategoryRequestDTO requestDTO) {
@@ -61,6 +68,12 @@ public class ProductServiceImpl implements ProductService {
 
         Category saved = categoryRepository.save(category);
         return categoryMapper.toCategoryDTO(saved);
+    }
+
+    @Override
+    public List<CategoryDTO> getAllCategories() {
+        List<Category> categories = categoryRepository.findAll();
+        return categoryMapper.toCategoryListDTO(categories);
     }
 
     //BRAND - CREATE, READ, UPDATE, DELETE
@@ -73,4 +86,11 @@ public class ProductServiceImpl implements ProductService {
         Brand saved = brandRepository.save(brand);
         return brandMapper.toBrandDTO(saved);
     }
+
+    @Override
+    public List<BrandDTO> getAllBrands() {
+        List<Brand> brands = brandRepository.findAll();
+        return brandMapper.toBrandListDTO(brands);
+    }
+
 }

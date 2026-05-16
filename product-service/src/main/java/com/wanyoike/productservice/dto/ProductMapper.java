@@ -4,6 +4,8 @@ import com.wanyoike.productservice.model.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring",
         uses = {CategoryMapper.class, BrandMapper.class, ProductMapper.class})
 public interface ProductMapper {
@@ -21,4 +23,5 @@ public interface ProductMapper {
     @Mapping(target = "updatedAt", ignore = true)
     Product toProductEntity(ProductRequestDTO requestDTO);
 
+    List<ProductResponseDTO> toListResponseDto(List<Product> products);
 }
