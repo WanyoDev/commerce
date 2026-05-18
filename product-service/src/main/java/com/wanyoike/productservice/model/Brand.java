@@ -42,7 +42,7 @@ public class Brand {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> category;
 
-    @OneToMany(mappedBy = "brand")
+    @OneToMany(mappedBy = "brand", cascade=CascadeType.ALL)
     private List<Product> products;
 
     @CreatedDate

@@ -36,7 +36,7 @@ public class Category {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "category")
     private Set<Brand> brand;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade=CascadeType.ALL)
     private List<Product> products;
 
     @CreatedDate
