@@ -1,4 +1,10 @@
 package com.wanyoike.productservice.dto;
 
-public record BrandRequestDTO(String brand) {
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class BrandRequestDTO {
+    private String brand;
 }

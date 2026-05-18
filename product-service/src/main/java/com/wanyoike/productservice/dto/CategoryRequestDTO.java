@@ -1,4 +1,10 @@
 package com.wanyoike.productservice.dto;
 
-public record CategoryRequestDTO(String category) {
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class CategoryRequestDTO {
+    private String category;
 }

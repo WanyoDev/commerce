@@ -1,5 +1,6 @@
 package com.wanyoike.authenticationservice.service;
 
+import com.wanyoike.authenticationservice.dtos.AuthRequestDTO;
 import com.wanyoike.authenticationservice.dtos.UserDTO;
 import com.wanyoike.authenticationservice.model.User;
 import com.wanyoike.authenticationservice.model.UserPrincipal;
@@ -33,10 +34,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.authenticationManager = authenticationManager;
     }
 
-    public String authenticateUser(UserDTO user) {
+    public String authenticateUser(AuthRequestDTO request) {
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword())
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
