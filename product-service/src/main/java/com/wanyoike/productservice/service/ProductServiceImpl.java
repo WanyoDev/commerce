@@ -1,6 +1,8 @@
 package com.wanyoike.productservice.service;
 
 import com.wanyoike.productservice.dto.*;
+import com.wanyoike.productservice.exceptions.BrandNotFoundException;
+import com.wanyoike.productservice.exceptions.CategoryNotFoundException;
 import com.wanyoike.productservice.model.Brand;
 import com.wanyoike.productservice.model.Category;
 import com.wanyoike.productservice.model.Product;
@@ -11,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -59,6 +63,39 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.toListResponseDto(products);
     }
 
+    @Override
+    public void deleteProduct(UUID id) {
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isPresent()) {
+            productRepository.deleteById(product.get().getId());
+        } else {
+            throw new IllegalStateException("Product not found");
+        }
+    }
+
+    @Override
+    public List<ProductResponseDTO> getAllProductsByCategoryId(UUID categoryId) {
+        //find if the category is present
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found: " + categoryId));
+
+        if (!category.isDeleted()) {
+            //should return a list of all products in that category that have not been deleted
+            List<Product> products = productRepository.findByCategory(category);
+            return productMapper.toListResponseDto(products);
+        }
+        return null;
+    }
+
+    @Override
+    public List<ProductResponseDTO> getAllProductsByBrandId(UUID brandId) {
+        Brand brand=brandRepository.findById(brandId)
+                .orElseThrow(() -> new BrandNotFoundException("Brand not found: " + brandId));
+
+        List<Product> products = productRepository.findByBrand(brand);
+        return productMapper.toListResponseDto(products);
+    }
+
     //CATEGORY - CREATE, READ, UPDATE, DELETE
     @Override
     public CategoryDTO newCategory(CategoryRequestDTO requestDTO) {
@@ -76,6 +113,23 @@ public class ProductServiceImpl implements ProductService {
         return categoryMapper.toCategoryListDTO(categories);
     }
 
+    //Soft delete functionality - it is not physically removed from database
+    @Override
+    public void deleteCategory(UUID id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found: " + id));
+        category.setDeleted(true);
+
+        List<Brand> brands = brandRepository.findByCategory(category);
+        brands.forEach(brand -> brand.setDeleted(true));
+
+        List<Product> products = productRepository.findByCategory(category);
+        products.forEach(product -> product.setActive(false));
+
+        categoryMapper.toCategoryDTO(categoryRepository.save(category));
+        productMapper.toListResponseDto(productRepository.saveAll(products));
+    }
+
     //BRAND - CREATE, READ, UPDATE, DELETE
     @Override
     public BrandDTO newBrand(BrandRequestDTO requestDTO) {
@@ -91,6 +145,19 @@ public class ProductServiceImpl implements ProductService {
     public List<BrandDTO> getAllBrands() {
         List<Brand> brands = brandRepository.findAll();
         return brandMapper.toBrandListDTO(brands);
+    }
+
+    @Override
+    public void deleteBrand(UUID id) {
+        Brand brand = brandRepository.findById(id)
+                .orElseThrow(() -> new BrandNotFoundException("Brand not found: " + id));
+        brand.setDeleted(true);
+
+        List<Product> products = productRepository.findByBrand(brand);
+        products.forEach(product -> product.setActive(false));
+
+        brandMapper.toBrandDTO(brandRepository.save(brand));
+        productMapper.toListResponseDto(productRepository.saveAll(products));
     }
 
 }

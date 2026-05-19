@@ -23,13 +23,33 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
-//    @ExceptionHandler(UserEmailNotFoundException.class)
-//    public ResponseEntity<?> handleUserEmailNotFoundException(UserEmailNotFoundException ex) {
-//
-//        log.info(ex.getMessage());
-//
-//        Map<String, String> errors = new HashMap<>();
-//        errors.put("email", ex.getMessage());
-//        return ResponseEntity.badRequest().body(errors);
-//    }
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<?> handleCategoryNotFoundException(CategoryNotFoundException ex) {
+
+        log.info(ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("category", ex.getMessage());
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(BrandNotFoundException.class)
+    public ResponseEntity<?> handleBrandNotFoundException(BrandNotFoundException ex) {
+
+        log.info(ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("brand", ex.getMessage());
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<?> handleProductNotFoundException(ProductNotFoundException ex) {
+
+        log.info(ex.getMessage());
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("product", ex.getMessage());
+        return ResponseEntity.badRequest().body(errors);
+    }
 }
