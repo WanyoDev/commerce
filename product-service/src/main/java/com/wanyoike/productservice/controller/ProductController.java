@@ -41,6 +41,11 @@ public class ProductController {
         return new ResponseEntity<>(productService.getAllProductsByBrandId(brandId), HttpStatus.FOUND);
     }
 
+    @DeleteMapping("/admin/product/delete/{productId}")
+    public void deleteProduct(@PathVariable UUID productId) {
+        productService.deleteProduct(productId);
+    }
+
     //CATEGORY
     @PostMapping("/admin/category")
     public ResponseEntity<CategoryDTO> createCategory(@RequestBody CategoryRequestDTO categoryRequestDTO) {
@@ -52,6 +57,11 @@ public class ProductController {
         return new ResponseEntity<>(productService.getAllCategories(), HttpStatus.OK);
     }
 
+    @DeleteMapping("/admin/category/delete/{categoryId}")
+    public void deleteCategory(@PathVariable UUID categoryId) {
+        productService.deleteCategory(categoryId);
+    }
+
     //BRAND
     @PostMapping("/admin/brand")
     public ResponseEntity<BrandDTO> createBrand(@RequestBody BrandRequestDTO brandRequestDTO) {
@@ -61,5 +71,10 @@ public class ProductController {
     @GetMapping("/brands")
     public ResponseEntity<List<BrandDTO>> getAllBrands() {
         return new ResponseEntity<>(productService.getAllBrands(), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/admin/brand/delete/{brandId}")
+    public void deleteBrand(@PathVariable UUID brandId) {
+        productService.deleteBrand(brandId);
     }
 }

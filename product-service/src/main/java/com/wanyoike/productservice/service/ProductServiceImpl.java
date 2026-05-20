@@ -3,6 +3,7 @@ package com.wanyoike.productservice.service;
 import com.wanyoike.productservice.dto.*;
 import com.wanyoike.productservice.exceptions.BrandNotFoundException;
 import com.wanyoike.productservice.exceptions.CategoryNotFoundException;
+import com.wanyoike.productservice.exceptions.ProductNotFoundException;
 import com.wanyoike.productservice.model.Brand;
 import com.wanyoike.productservice.model.Category;
 import com.wanyoike.productservice.model.Product;
@@ -66,11 +67,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(UUID id) {
         Optional<Product> product = productRepository.findById(id);
-        if (product.isPresent()) {
-            productRepository.deleteById(product.get().getId());
-        } else {
-            throw new IllegalStateException("Product not found");
+        if (product.isEmpty()) {
+            throw new ProductNotFoundException("Product not found");
         }
+        productRepository.deleteById(id);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductResponseDTO> getAllProductsByBrandId(UUID brandId) {
-        Brand brand=brandRepository.findById(brandId)
+        Brand brand = brandRepository.findById(brandId)
                 .orElseThrow(() -> new BrandNotFoundException("Brand not found: " + brandId));
 
         List<Product> products = productRepository.findByBrand(brand);
@@ -112,8 +112,7 @@ public class ProductServiceImpl implements ProductService {
         List<Category> categories = categoryRepository.findAll();
         return categoryMapper.toCategoryListDTO(categories);
     }
-
-    //Soft delete functionality - it is not physically removed from database
+    
     @Override
     public void deleteCategory(UUID id) {
         Category category = categoryRepository.findById(id)
