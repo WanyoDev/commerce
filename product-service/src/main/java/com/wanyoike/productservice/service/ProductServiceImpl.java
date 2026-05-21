@@ -112,7 +112,7 @@ public class ProductServiceImpl implements ProductService {
         List<Category> categories = categoryRepository.findAll();
         return categoryMapper.toCategoryListDTO(categories);
     }
-    
+
     @Override
     public void deleteCategory(UUID id) {
         Category category = categoryRepository.findById(id)

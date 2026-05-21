@@ -1,0 +1,11 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: eureka-registry
+
+eureka:
+  client:
+    register-with-eureka: false #Cannot register with itself
+    fetch-registry: false #it is the registry

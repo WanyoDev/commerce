@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/auth")
 public class UserController {
 
     private final UserService userService;

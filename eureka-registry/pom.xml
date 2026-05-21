@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.wanyoike</groupId>
-    <artifactId>gateway-service</artifactId>
+    <artifactId>eureka-registry</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>gateway-service</name>
-    <description>gateway-service</description>
+    <name>eureka-registry</name>
+    <description>eureka-registry</description>
     <url/>
     <licenses>
         <license/>

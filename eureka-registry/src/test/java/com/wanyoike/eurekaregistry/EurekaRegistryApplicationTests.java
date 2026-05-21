@@ -1,10 +1,10 @@
-package com.wanyoike.gatewayservice;
+package com.wanyoike.eurekaregistry;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class GatewayServiceApplicationTests {
+class EurekaRegistryApplicationTests {
 
     @Test
     void contextLoads() {

@@ -1,4 +1,4 @@
-package com.wanyoike.gatewayservice;
+package com.wanyoike.eurekaregistry;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 @SpringBootApplication
 @EnableEurekaServer
-public class GatewayServiceApplication {
+public class EurekaRegistryApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GatewayServiceApplication.class, args);
+        SpringApplication.run(EurekaRegistryApplication.class, args);
     }
 
 }
