@@ -31,7 +31,7 @@ public class SecurityConfiguration {
                 .csrf(csrf-> csrf.disable())
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/auth/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/auth/register", "/auth/login").permitAll()
+                        .requestMatchers("/auth/user/register", "/auth/user/login").permitAll()
                         .anyRequest().authenticated())
 
 //                .formLogin(Customizer.withDefaults()) //UI access

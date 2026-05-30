@@ -16,15 +16,23 @@ spring:
         - id: authentication-service
           uri: lb://AUTHENTICATION-SERVICE
           predicates:
-            - Path=/auth/**
+            - Path=/user/**
+          filters:
+            - RewritePath=/user/(?<segment>.*), /auth${segment}
 
         - id: product-service
           uri: lb://PRODUCT-SERVICE
           predicates:
-            - Path=/commerce/**
+            - Path=/products/**
+          filters:
+            - RewritePath=/products/(?<segment>.*), /commerce${segment}
 
 
       discovery:
         locator:
           enabled: true
           lower-case-service-id: true
+
+jjwt:
+  secret:
+    key: ${JWT_SECRET}

@@ -23,7 +23,7 @@ public class UserController {
         this.userDetailsService = userDetailsService;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/user/login")
     public ResponseEntity<String> login(@RequestBody AuthRequestDTO request) {
         return new ResponseEntity<>(userDetailsService.authenticateUser(request), HttpStatus.OK);
     }
@@ -41,7 +41,7 @@ public class UserController {
     }
 
 
-    @PostMapping("/register")
+    @PostMapping("/user/register")
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         return new ResponseEntity<>(userService.createUser(userDTO), HttpStatus.CREATED);
     }
