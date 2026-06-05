@@ -33,12 +33,12 @@ public class ProductController {
 
     @GetMapping("/products/category/{categoryId}")
     public ResponseEntity<List<ProductResponseDTO>> getAllProductsByCategoryId(@PathVariable UUID categoryId) {
-        return new ResponseEntity<>(productService.getAllProductsByCategoryId(categoryId), HttpStatus.FOUND);
+        return new ResponseEntity<>(productService.getAllProductsByCategoryId(categoryId), HttpStatus.OK);
     }
 
     @GetMapping("/products/brand/{brandId}")
     public ResponseEntity<List<ProductResponseDTO>> getAllProductsByBrandId(@PathVariable UUID brandId) {
-        return new ResponseEntity<>(productService.getAllProductsByBrandId(brandId), HttpStatus.FOUND);
+        return new ResponseEntity<>(productService.getAllProductsByBrandId(brandId), HttpStatus.OK);
     }
 
     @DeleteMapping("/admin/product/delete/{productId}")

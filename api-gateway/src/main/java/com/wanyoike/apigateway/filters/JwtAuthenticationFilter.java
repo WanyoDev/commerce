@@ -2,6 +2,8 @@ package com.wanyoike.apigateway.filters;
 
 import com.wanyoike.apigateway.service.JwtService;
 import io.jsonwebtoken.Claims;
+import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -57,13 +59,14 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
                 return exchange.getResponse().setComplete();
             }
 
+            //Extract Roles and Subject
             Claims claims = jwtService.extractClaimsJWT(token);
 
             String email = claims.getSubject();
 
             List<String> roles = claims.get("roles", List.class);
 
-            ServerHttpRequest request =
+            ServerHttpRequest httpRequest =
                     exchange.getRequest()
                             .mutate()
                             .header("X-User-Email", email)
@@ -72,7 +75,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
 
             return chain.filter(exchange
                     .mutate()
-                    .request(request)
+                    .request(httpRequest)
                     .build()
             );
 
