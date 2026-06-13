@@ -46,6 +46,18 @@ public class ProductController {
         productService.deleteProduct(productId);
     }
 
+    @PutMapping("/products/{id}/stock")
+    public ResponseEntity<Void> reduceStock(@PathVariable UUID id, @RequestParam int quantity){
+
+        productService.reduceStock(id, quantity);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/products/{id}")
+    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable UUID id) {
+        return new ResponseEntity<>(productService.getProductById(id), HttpStatus.OK);
+    }
+
     //CATEGORY
     @PostMapping("/admin/category")
     public ResponseEntity<CategoryDTO> createCategory(@RequestBody CategoryRequestDTO categoryRequestDTO) {

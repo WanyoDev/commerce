@@ -28,8 +28,8 @@ public class ProductServiceImpl implements ProductService {
     private final BrandMapper brandMapper;
     private final CategoryMapper categoryMapper;
 
-    public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository,
-                              BrandRepository brandRepository, ProductMapper productMapper, BrandMapper brandMapper, CategoryMapper categoryMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository, BrandRepository brandRepository,
+                              ProductMapper productMapper, BrandMapper brandMapper, CategoryMapper categoryMapper) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.brandRepository = brandRepository;
@@ -94,6 +94,28 @@ public class ProductServiceImpl implements ProductService {
 
         List<Product> products = productRepository.findByBrand(brand);
         return productMapper.toListResponseDto(products);
+    }
+
+    @Override
+    public ProductResponseDTO getProductById(UUID id) {
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isEmpty()) {
+            throw new ProductNotFoundException("Product not found");
+        }
+        return productMapper.toProductResponseDto(product.get());
+    }
+
+    @Override
+    public void reduceStock(UUID productId, Integer quantity) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found: " + productId));
+
+        if (product.getQuantity() < quantity) {
+            throw new RuntimeException("Insufficient stock");
+        }
+        product.setQuantity(product.getQuantity() - quantity);
+        productRepository.save(product);
+
     }
 
     //CATEGORY - CREATE, READ, UPDATE, DELETE

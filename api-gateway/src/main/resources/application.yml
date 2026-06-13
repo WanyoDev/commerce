@@ -14,25 +14,42 @@ spring:
     gateway:
       routes:
         - id: authentication-service
-          uri: lb://AUTHENTICATION-SERVICE
+          uri: lb://authentication-service
           predicates:
             - Path=/auth/**
-          filters:
-            - RewritePath=/auth/(?<segment>.*), /${segment}
 
         - id: product-service
-          uri: lb://PRODUCT-SERVICE
+          uri: lb://product-service
           predicates:
             - Path=/commerce/**
-          filters:
-            - RewritePath=/commerce/(?<segment>.*), /${segment}
 
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/orders/**
 
       discovery:
         locator:
           enabled: true
           lower-case-service-id: true
 
-jjwt:
+jwt:
   secret:
     key: ${JWT_SECRET_KEY}
+
+test:
+  value: hello-gateway
+#
+#logging:
+#  level:
+#    org.springframework.cloud.gateway: DEBUG
+#
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: gateway,health
+#
+#  endpoint:
+#    gateway:
+#      access: unrestricted

@@ -31,4 +31,10 @@ public interface ProductService {
     List<ProductResponseDTO> getAllProductsByCategoryId(UUID categoryId);
 
     List<ProductResponseDTO> getAllProductsByBrandId(UUID brandId);
+
+    ProductResponseDTO getProductById(UUID id);
+
+    //Reduce stock
+    void reduceStock(UUID productId, Integer quantity);
+
 }

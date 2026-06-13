@@ -32,7 +32,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/commerce/admin/**").hasRole("ADMIN")
                         .requestMatchers("/auth/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/auth/register", "/auth/login").permitAll()
+                        .requestMatchers("/auth/register", "/auth/login", "/commerce/products").permitAll()
                         .anyRequest().authenticated())
 
 //                .formLogin(Customizer.withDefaults()) //UI access
