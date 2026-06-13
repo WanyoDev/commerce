@@ -56,6 +56,9 @@ public class OrderServiceImpl implements OrderService {
             BigDecimal subtotal = product.price()
                     .multiply(BigDecimal.valueOf(orderItemRequest.quantity()));
 
+            //reserve inventory
+            productClient.reduceStock(product.id(), orderItemRequest.quantity());
+
             OrderItems orderItems =
                     OrderItems.builder()
                             .productId(product.id())
