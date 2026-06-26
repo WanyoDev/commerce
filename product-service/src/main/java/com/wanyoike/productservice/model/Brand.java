@@ -48,4 +48,18 @@ public class Brand {
     @CreatedDate
     @Column(updatable = false, name = "created_at")
     private LocalDateTime createdAt;
+
+    //Category and brand will be matched to each other
+    public void addCategory(Category category) {
+
+        if (!this.category.contains(category)) {
+            this.category.add(category);
+
+            if(!category.getBrand().contains(this)) {
+                category.getBrand().add(this);
+            }
+        }
+
+
+    }
 }

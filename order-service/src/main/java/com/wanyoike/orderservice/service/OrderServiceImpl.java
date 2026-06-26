@@ -6,6 +6,7 @@ import com.wanyoike.orderservice.dto.OrderItemRequestDTO;
 import com.wanyoike.orderservice.dto.OrderMapper;
 import com.wanyoike.orderservice.dto.OrderRequestDTO;
 import com.wanyoike.orderservice.dto.OrderResponseDTO;
+import com.wanyoike.orderservice.kafka.OrderEventProducer;
 import com.wanyoike.orderservice.model.OrderItems;
 import com.wanyoike.orderservice.model.Orders;
 import com.wanyoike.orderservice.repository.OrderRepository;
@@ -24,11 +25,13 @@ public class OrderServiceImpl implements OrderService {
     private final ProductClient productClient;
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
+    private final OrderEventProducer orderEventProducer;
 
-    public OrderServiceImpl(ProductClient productClient, OrderRepository orderRepository, OrderMapper orderMapper) {
+    public OrderServiceImpl(ProductClient productClient, OrderRepository orderRepository, OrderMapper orderMapper, OrderEventProducer orderEventProducer) {
         this.productClient = productClient;
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
+        this.orderEventProducer = orderEventProducer;
     }
 
     @Override
@@ -77,6 +80,8 @@ public class OrderServiceImpl implements OrderService {
         orders.setTotalPrice(totalPrice);
 
         Orders saveOrder = orderRepository.save(orders);
+
+        orderEventProducer.orderCreated(saveOrder);
 
         return orderMapper.toOrderResponseDTO(saveOrder);
 

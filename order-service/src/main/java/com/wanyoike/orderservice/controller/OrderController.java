@@ -2,9 +2,7 @@ package com.wanyoike.orderservice.controller;
 
 import com.wanyoike.orderservice.dto.OrderRequestDTO;
 import com.wanyoike.orderservice.dto.OrderResponseDTO;
-import com.wanyoike.orderservice.model.Orders;
 import com.wanyoike.orderservice.service.OrderService;
-import jakarta.persistence.criteria.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
