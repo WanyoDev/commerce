@@ -21,7 +21,7 @@ public class Address {
     private String lastName;
 
     @NotBlank(message = "Enter valid phone number")
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String phoneNumber;
 
     //Should retrieve email of user logged in
@@ -33,7 +33,7 @@ public class Address {
     @NotBlank(message = "Enter country of residence")
     private String country;
 
-    @Column(name = "city", nullable=false)
+    @Column(name = "city", nullable = false)
     @NotBlank(message = "Enter current city you live in")
     private String city;
 

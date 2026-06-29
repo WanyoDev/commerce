@@ -5,6 +5,10 @@ eureka:
   client:
     service-url:
       default-zone: http://localhost:8761/eureka/
+#  instance:
+#    prefer-ip-address: true
+#    ip-address: 127.0.0.1
+
 
 spring:
   application:
@@ -12,25 +16,26 @@ spring:
 
   cloud:
     gateway:
-      routes:
-        - id: authentication-service
-          uri: lb://authentication-service
-          predicates:
-            - Path=/auth/**
+      server:
+        webflux:
+          routes:
+            - id: authentication-service
+              uri: lb://authentication-service
+              predicates:
+                - Path=/auth/**
 
-        - id: product-service
-          uri: lb://product-service
-          predicates:
-            - Path=/commerce/**
+            - id: product-service
+              uri: lb://product-service
+              predicates:
+                - Path=/commerce/**
 
-        - id: order-service
-          uri: lb://order-service
-          predicates:
-            - Path=/orders/**
+            - id: order-service
+              uri: lb://order-service
+              predicates:
+                - Path=/orders/**
 
       discovery:
         locator:
-          enabled: true
           lower-case-service-id: true
 
 jwt:
@@ -40,9 +45,9 @@ jwt:
 test:
   value: hello-gateway
 #
-#logging:
-#  level:
-#    org.springframework.cloud.gateway: DEBUG
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
 #
 #management:
 #  endpoints:

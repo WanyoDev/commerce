@@ -36,6 +36,11 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
 
+        //Allow public endpoints to bypass JWT validation
+        if (isPublicPath(path)) {
+            return chain.filter(exchange);
+        }
+        
         String authHeader =
                 exchange.getRequest()
                         .getHeaders()
@@ -84,6 +89,14 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
+    }
+
+    //Implement in the filter instead of in the Security Configuration class
+    private boolean isPublicPath(String path) {
+        return path.startsWith("/auth")
+                || path.startsWith("/commerce/products")
+                || path.equals("/commerce/categories")
+                || path.equals("/commerce/brands");
     }
 
     @Override

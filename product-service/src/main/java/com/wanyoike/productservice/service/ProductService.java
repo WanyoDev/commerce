@@ -37,4 +37,7 @@ public interface ProductService {
     //Reduce stock
     void reduceStock(UUID productId, Integer quantity);
 
+    //UPDATE
+    ProductResponseDTO updateProduct(UUID id, ProductRequestDTO productRequestDTO);
+
 }

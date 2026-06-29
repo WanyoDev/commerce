@@ -53,6 +53,12 @@ public class ProductController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/admin/products/update/{productId}")
+    public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable UUID productId,
+                                                            @RequestBody ProductRequestDTO productRequestDTO) {
+        return new ResponseEntity<>(productService.updateProduct(productId, productRequestDTO), HttpStatus.OK);
+    }
+
     @GetMapping("/products/{id}")
     public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable UUID id) {
         return new ResponseEntity<>(productService.getProductById(id), HttpStatus.OK);

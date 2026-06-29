@@ -118,6 +118,28 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+    @Override
+    public ProductResponseDTO updateProduct(UUID id, ProductRequestDTO productRequestDTO) {
+        Product productExists=productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found: " + id));
+
+        Category category=categoryRepository.findById(productRequestDTO.getCategoryId())
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found: " + productRequestDTO.getCategoryId()));
+
+        Brand brand=brandRepository.findById(productRequestDTO.getBrandId())
+                        .orElseThrow(() -> new BrandNotFoundException("Brand not found: " + productRequestDTO.getBrandId()));
+
+        productExists.setProduct(productRequestDTO.getProduct());
+        productExists.setDescription(productRequestDTO.getDescription());
+        productExists.setPrice(productRequestDTO.getPrice());
+        productExists.setQuantity(productRequestDTO.getQuantity());
+        productExists.setCategory(category);
+        productExists.setBrand(brand);
+        productRepository.save(productExists);
+
+        return productMapper.toProductResponseDto(productExists);
+    }
+
     //CATEGORY - CREATE, READ, UPDATE, DELETE
     @Override
     public CategoryDTO newCategory(CategoryRequestDTO requestDTO) {

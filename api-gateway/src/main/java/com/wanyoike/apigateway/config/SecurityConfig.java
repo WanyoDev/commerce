@@ -20,8 +20,10 @@ public class SecurityConfig {
 //                                "/commerce/categories",
 //                                "/commerce/brands").permitAll()
 //                        .anyExchange().authenticated());
-//                        .pathMatchers("/actuator/**").permitAll()
-                        .anyExchange().permitAll());
+                        .anyExchange().permitAll())
+                .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
+                .formLogin(ServerHttpSecurity.FormLoginSpec::disable);
+
         return http.build();
     }
 }
