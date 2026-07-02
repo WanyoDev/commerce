@@ -25,11 +25,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotNull(message = "Enter first name")
+    @NotBlank(message = "Enter first name")
     @Column(nullable = false, name = "first_name")
     private String firstName;
 
-    @NotNull(message = "Enter last name")
+    @NotBlank(message = "Enter last name")
     @Column(nullable = false, name = "last_name")
     private String lastName;
 

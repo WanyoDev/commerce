@@ -15,7 +15,6 @@ import java.util.UUID;
 @NoArgsConstructor
 
 public class UserDTO {
-    private UUID id;
 
     @NotNull(message = "Enter first name")
     private String firstName;
