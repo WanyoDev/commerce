@@ -64,8 +64,10 @@ public class Product {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Transient
-    public boolean isAvailable() {
-        return quantity != null && quantity > 0;
-    }
+//    @Transient
+//    public boolean isAvailable() {
+//        return quantity != null && quantity > 0;
+//    }
+    //this won't be persisted to the database as it is derived from quantity
+    //there should be a boolean available; datatype annotated with @Transient
 }
