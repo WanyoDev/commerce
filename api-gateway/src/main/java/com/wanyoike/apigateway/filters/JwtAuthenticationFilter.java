@@ -40,7 +40,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
         if (isPublicPath(path)) {
             return chain.filter(exchange);
         }
-        
+
         String authHeader =
                 exchange.getRequest()
                         .getHeaders()

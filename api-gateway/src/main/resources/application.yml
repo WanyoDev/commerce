@@ -5,10 +5,6 @@ eureka:
   client:
     service-url:
       default-zone: http://localhost:8761/eureka/
-#  instance:
-#    prefer-ip-address: true
-#    ip-address: 127.0.0.1
-
 
 spring:
   application:
@@ -34,6 +30,11 @@ spring:
               predicates:
                 - Path=/orders/**
 
+            - id: payment-service
+              uri: lb://payment-service
+              predicates:
+              - Path=/payments/**
+
       discovery:
         locator:
           lower-case-service-id: true
@@ -44,17 +45,7 @@ jwt:
 
 test:
   value: hello-gateway
-#
+
 logging:
   level:
     org.springframework.cloud.gateway: DEBUG
-#
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: gateway,health
-#
-#  endpoint:
-#    gateway:
-#      access: unrestricted

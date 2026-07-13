@@ -65,9 +65,12 @@ public class Product {
     private LocalDateTime updatedAt;
 
 //    @Transient
+//    private boolean available;
+    
 //    public boolean isAvailable() {
 //        return quantity != null && quantity > 0;
 //    }
     //this won't be persisted to the database as it is derived from quantity
     //there should be a boolean available; datatype annotated with @Transient
+    //mapping will be (target="available", source="available")
 }

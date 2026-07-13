@@ -6,6 +6,8 @@ import com.wanyoike.orderservice.dto.OrderItemRequestDTO;
 import com.wanyoike.orderservice.dto.OrderMapper;
 import com.wanyoike.orderservice.dto.OrderRequestDTO;
 import com.wanyoike.orderservice.dto.OrderResponseDTO;
+import com.wanyoike.orderservice.exceptions.InsufficientStockException;
+import com.wanyoike.orderservice.exceptions.OrderNotFoundException;
 import com.wanyoike.orderservice.kafka.OrderEventProducer;
 import com.wanyoike.orderservice.model.OrderItems;
 import com.wanyoike.orderservice.model.Orders;
@@ -53,7 +55,7 @@ public class OrderServiceImpl implements OrderService {
 
             if(product.quantity() < orderItemRequest.quantity()) {
 
-                throw new RuntimeException("Not enough stock for " + product.product());
+                throw new InsufficientStockException("Not enough stock for " + product.product());
             }
 
             BigDecimal subtotal = product.price()
@@ -105,7 +107,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponseDTO getOrderById(UUID orderId) {
 
         Orders orders = orderRepository.findById(orderId)
-                .orElseThrow(()-> new IllegalArgumentException("Order not found"));
+                .orElseThrow(()-> new OrderNotFoundException("Order not found" +  orderId));
 
         return orderMapper.toOrderResponseDTO(orders);
     }

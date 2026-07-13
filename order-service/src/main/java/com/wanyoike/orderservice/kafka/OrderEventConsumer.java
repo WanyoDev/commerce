@@ -13,7 +13,7 @@ public class OrderEventConsumer {
 
     private final ProductClient productClient;
 
-    @KafkaListener(topics = "order-created",groupId = "product-group")
+    @KafkaListener(topics = "order-created",groupId = "product-service")
     public void consume(OrderEvent orderEvent) {
 
         for (OrderItemEvent item : orderEvent.items()) {
